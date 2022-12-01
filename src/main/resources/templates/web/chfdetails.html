@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/frontend :: head(~{ :: title})">
+	<title th:text="${maintitle}"></title>
+</head>
+<body style="display: block;">
+    <nav th:replace="layout/menu :: menu" ></nav>
+    <div class="main-content">
+   	   <div class="header" th:replace="layout/frontend :: mainheader('Overview','CHF Details')"></div>
+      <!-- CARDS -->
+        <div class="container-fluid">
+         <div class="row">
+          <div class="col-4">
+            <!-- Goals -->
+            <div class="card">
+              <div class="card-header">
+                <div class="row align-items-center">
+                  <div class="col"><!-- Title --><h4 class="card-header-title" th:text="'Current User Counters: ' +${user.supi}"> </h4></div>
+                  <div class="col-auto">
+                    <!-- Button -->
+                    <a href="#!" class="btn btn-sm btn-white">
+                      New Counter
+                    </a>
+
+                  </div>
+                </div> <!-- / .row -->
+              </div>
+              <div class="table-responsive mb-0">
+                <table class="table table-sm table-nowrap card-table">
+                  <thead>
+                    <tr>
+                      <th><a href="#" class="list-sort" data-sort="goal-project">Name</a></th>
+                      <th><a href="#" class="list-sort" data-sort="goal-project">Value</a></th>
+                      <th><a href="#" class="list-sort" data-sort="goal-status">Options</a></th>
+                    </tr>
+                  </thead>
+                  <tbody class="list">
+					<tr th:each="counter: ${user.counters}">
+						<td  th:text="${counter.name}"></td>
+						<td  th:text="${counter.currentStatus}"></td>
+						<td class="text-end">	 <!-- Button -->
+							<a style="color: white;" href="#" th:href="@{/chfcounter/{counterId}(counterId=${counter.counterId})}+'?userId='+${user.userId}"><span style="color:#2c7be5;"><i class="fa-solid fa-magnifying-glass fa-xl"></i></span></a>&nbsp;
+							<a style="color: white;" href="" data-toggle="modal" data-target="#addsMobile"> <span style="color: Tomato;"><i class="fa-solid fa-xmark fa-2xl"></i></span></a>
+                        </td>
+					</tr>
+					</tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-8">
+            <!-- Goals -->
+            <div class="card">
+              <div class="card-header">
+                <div class="row align-items-center">
+                  <div class="col"><!-- Title --><h4 class="card-header-title" th:text="'Current Subscriptios for User: ' +${user.supi}"> </h4></div>
+                </div> <!-- / .row -->
+              </div>
+              <div class="table-responsive mb-0">
+                <table class="table table-sm table-nowrap card-table">
+                  <thead>
+                    <tr>
+                      <th><a href="#" class="list-sort" data-sort="goal-project">Subscription Id</a></th>
+                      <th><a href="#" class="list-sort" data-sort="goal-project">supi</a></th>
+                      <th><a href="#" class="list-sort" data-sort="goal-status">gpsi</a></th>
+                      <th><a href="#" class="list-sort" data-sort="goal-status">notify URI</a></th>
+                      <th><a href="#" class="list-sort" data-sort="goal-status">expiry</a></th>
+                      <th><a href="#" class="list-sort" data-sort="goal-status">Features</a></th>
+                      <th><a href="#" class="list-sort" data-sort="goal-status">Actions</a></th>
+                    </tr>
+                  </thead>
+                  <tbody class="list">
+					<tr th:each="subs: ${subscriptions}">
+						<td  th:text="${subs.subscriptionId}"></td>
+						<td  th:text="${subs.supi}"></td>
+						<td  th:text="${subs.gpsi}"></td>
+						<td  th:text="${subs.notifUri}"></td>
+						<td  th:text="${subs.expiry}"></td>
+						<td  th:text="${subs.supportedFeatures}"></td>
+						<td class="text-end">	 <!-- Button -->
+							<a style="color: white;" href="#" th:href="@{/subscription/delete/{subsId}(subsId=${subs.subscriptionId})}+'?userId='+${user.userId}"><span style="color: Tomato;"><i class="fa-solid fa-xmark fa-2xl"></i></span></a>&nbsp;
+                        </td>
+					</tr>
+					</tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div> <!-- / .row -->
+        <div class="row align-items-right">
+        	<div class="col-auto">
+        		<a href="#!" class="btn btn-sm btn-white" th:href="@{/notify/{userId}(userId=${user.userId})}">
+                      Notify
+                    </a>
+        	</div>
+        </div>
+        
+        
+      </div>
+    </div>
+    
+    
+    
+    <!-- Modal -->
+<div class="modal fade" id="subscribeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">NWDAF Subscription</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:aliceblue">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        We are going to subscribe to NWDAF tracking this user
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary"  data-dismiss="modal">Send</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="addsMobile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Member Offer</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:aliceblue">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        You are contacting the user 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary"><a href="mobile" target="_blank" style="color:aliceblue">Send</a></button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+	

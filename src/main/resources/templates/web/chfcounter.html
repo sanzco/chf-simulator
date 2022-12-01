@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/frontend :: head(~{ :: title})">
+	<title th:text="${maintitle}"></title>
+</head>
+<body style="display: block;">
+    <nav th:replace="layout/menu :: menu" ></nav>
+    <div class="main-content">
+   	   <div class="header" th:replace="layout/frontend :: mainheader('Overview','CHF Counter')"></div>
+      <!-- CARDS -->
+        <div class="container-fluid">
+        <form th:action="@{/chfcounter/edit}" method="post" th:object="${counter}">
+        <input type="hidden" name="userId" th:value="${userId}">
+        <input type="hidden" th:field="${counter.counterId}">
+         <div class="row">
+          <div class="col-6">
+            <!-- Goals -->
+            <div class="card">
+              <div class="card-header">
+                <div class="row align-items-center">
+                  <div class="col"><!-- Title -->
+                    <h4 class="card-header-title">Counter</h4></div>
+                </div> <!-- / .row -->
+              </div>
+                <div class="row  mb-2 mt-2">
+                	<div class="input-group mb-2">
+	                	<div class="col-4">
+	                		<label for="name">Counter Name</label>
+	                	</div>
+	                	<div class="col-8">
+	                		<input class="form-control" id="name" th:field="*{name}">
+	                	</div>
+                	</div>	
+                </div>
+                <div class="row  mb-2">
+	                <div class="input-group">
+	                	<div class="col-4">
+	                		<label for="currentStatus">Current Status</label>
+	                	</div>
+	                	<div class="col-8">
+	                		<input class="form-control" id="currentStatus" th:field="*{currentStatus}">
+	                	</div>
+	                </div>
+                </div>
+                <div class="row">
+                	<div class="d-flex flex-row-reverse">
+                		<button class="btn btn-primary m-2">Back</button>
+                		<button class="btn btn-primary m-2" type="submit">Save</button>
+                	</div>
+                </div>
+            </div>
+
+          </div>
+          <div class="col-6">
+            <!-- Goals -->
+            <div class="card">
+              <div class="card-header">
+                <div class="row align-items-center">
+                  <div class="col"><!-- Title -->
+                    <h4 class="card-header-title">Pending Counters</h4>
+                  </div>
+                  <div class="col-auto d-flex flex-row-reverse">
+                  		<a style="color: white;" href="" data-toggle="modal" data-target="#pendingCounter"> <span style="color: rgb(39, 184, 86);"><i class="fa-solid fa-file-circle-plus fa-xl"></i></span></a>
+                  </div>
+                </div> <!-- / .row -->
+              </div>
+              <div class="table-responsive mb-0">
+                <table class="table table-sm table-nowrap card-table">
+                  <thead>
+                    <tr>
+                      <th><a href="#" class="list-sort" data-sort="goal-project">Counter Status</a></th>
+                      <th><a href="#" class="list-sort" data-sort="goal-project">Activation Time</a></th>
+                      <th><a href="#" class="list-sort" data-sort="goal-status">Actions</a></th>
+                    </tr>
+                  </thead>
+                  <tbody class="list">
+					<tr th:each="pending: ${counter.pendingCounters}">
+						<td  th:text="${pending.counterStatus}"></td>
+						<td  th:text="${pending.activationTime}"></td>
+						<td class="text-end">	 <!-- Button -->
+							<a style="color: white;" href="#" th:href="@{/chfcounter/deletepending(pendingId=${pending.counterId},userId=${userId},counterId=${counter.counterId})}" > <span style="color: Tomato;"><i class="fa-solid fa-xmark fa-2xl"></i></span></a>
+                        </td>
+					</tr>
+					</tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </div> <!-- / .row -->
+        </form>
+        
+      </div>
+    </div>
+    
+        <!-- Modal -->
+<div class="modal fade" id="pendingCounter" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+    <form th:action="@{/chfcounter/addpending}" method="post" th:object="${pendingCounter}">
+    	<input type="hidden" th:value="${counter.counterId}" name="counterId">
+    	<input type="hidden" name="userId" th:value="${userId}">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New Pending counter</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:aliceblue">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        	<div class="row  mb-2 mt-2">
+            	<div class="input-group mb-2">
+                	<div class="col-4">
+                		<label for="status">Counter Status</label>
+                	</div>
+                	<div class="col-8">
+                		<input class="form-control" id="status" th:field="*{counterStatus}">
+                	</div>
+            	</div>	
+            </div>
+            <div class="row  mb-2">
+                <div class="input-group">
+                	<div class="col-4">
+                		<label for="activationTime">Activation Time</label>
+                	</div>
+                	<div class="col-8 input-group">
+                		<input class="form-control" id="activationTime" th:field="*{activationTime}">
+                		<div class="input-group-append">
+						    <span class="input-group-text" id="basic-addon2">ie. 2022-11-10 19:00</span>
+						  </div>
+                	</div>
+                </div>
+            </div>
+  		</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary" type="submit">Save</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+	

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)"><title th:text="${title}"></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--JQUERY-->
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<!-- Theme JS -->
+    <script src="/js/theme.bundle.js"></script>
+    <script src="/js/vendor.bundle.js"></script>
+    
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<!-- Los iconos tipo Solid de Fontawesome-->
+	 <link href="static/css/fontawesome.css" th:href="@{/css/fontawesome.css}" rel="stylesheet">
+	  <link href="static/css/brands.css" th:href="@{/css/brands.css}" rel="stylesheet">
+	  <link href="static/css/solid.css" th:href="@{/css/solid.css}" rel="stylesheet">
+	
+	<!-- Nuestro css-->
+    <link rel="stylesheet" href="static/css/theme-dark.bundle.css" th:href="@{/css/theme-dark.bundle.css}">
+
+
+</head>
+<body style="display: block;">
+<!-- NAVIGATION -->
+
+    <div class="main-content">
+    <!-- HEADER -->
+      <div class="header" th:fragment="mainheader(headerpretitle,headertitle)">
+        <div class="container-fluid">
+          <!-- Body -->
+          <div class="header-body">
+            <div class="row align-items-end">
+              <div class="col">
+                <!-- Pretitle -->
+                <h6 class="header-pretitle" th:text="${headerpretitle}"></h6>
+                <!-- Title -->
+                <h1 class="header-title" th:text="${headertitle}"></h1>
+              </div>
+              <div class="col-auto">
+                <!-- Button 
+                <a href="#!" class="btn btn-dark lift">
+                  Create Report
+                </a>-->
+              </div>
+            </div> <!-- / .row -->
+          </div> <!-- / .header-body -->
+
+        </div>
+      </div> <!-- / .header -->
+    </div>
+    
+
+</body>
+</html>
+	

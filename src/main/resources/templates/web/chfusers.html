@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/frontend :: head(~{ :: title})">
+	<title th:text="${maintitle}"></title>
+</head>
+<body style="display: block;">
+    <nav th:replace="layout/menu :: menu" ></nav>
+    <div class="main-content">
+   	   <div class="header" th:replace="layout/frontend :: mainheader('Overview','CHF Users')"></div>
+      <!-- CARDS -->
+        <div class="container-fluid">
+         <div class="row">
+          <div class="col-12">
+            <!-- Goals -->
+            <div class="card">
+              <div class="card-header">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <!-- Title -->
+                    <h4 class="card-header-title">
+                      Users
+                    </h4>
+                  </div>
+                  <div class="col-auto">
+                    <!-- Button -->
+                    <a href="#" data-toggle="modal" data-target="#addUserModal" class="btn btn-sm btn-white">
+                      New User
+                    </a>
+
+                  </div>
+                </div> <!-- / .row -->
+              </div>
+              <div class="table-responsive mb-0" data-list="{&quot;valueNames&quot;: [&quot;goal-project&quot;, &quot;goal-status&quot;, &quot;goal-progress&quot;, &quot;goal-date&quot;]}">
+                <table class="table table-sm table-nowrap card-table">
+                  <thead>
+                    <tr>
+                      <th><a href="#" class="list-sort" data-sort="goal-project">ID</a></th>
+                      <th><a href="#" class="list-sort" data-sort="goal-project">Supi</a></th>
+                      <th><a href="#" class="list-sort" data-sort="goal-status">Gpsi</a></th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody class="list">
+					<tr th:each="user: ${userList}">
+						<td ><a style="color: white;" class="link-primary"  href="#" th:text="${user.userId}" th:href="@{/chfdetails/{userId}(userId=${user.userId})}"></a> </td>
+						<td ><a style="color: white;" class="link-primary" href="#" th:text="${user.supi}" th:href="@{/chfdetails/{userId}(userId=${user.userId})}"></a> </td>
+						<td ><a style="color: white;" class="link-primary" href="#" th:text="${user.gpsi}" th:href="@{/chfdetails/{userId}(userId=${user.userId})}"></a> </td>
+						<td class="text-end">	
+						 <!-- Button -->
+						 <a style="color: white;" href="" data-toggle="modal" data-target="#addsMobile"> <span style="color: Tomato;"><i class="fa-solid fa-xmark fa-2xl"></i></span></a>
+                        </td>
+					</tr>
+					</tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </div> <!-- / .row -->
+        
+        
+      </div>
+    </div>
+    
+    
+    
+    <!-- Modal -->
+<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:aliceblue">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form th:action="@{/chfuser/add}" method="post" th:object="${newuser}">
+      <div class="modal-body">
+        <div class="row">
+    		<div class="row  mb-2 mt-2">
+            	<div class="input-group mb-2">
+                	<div class="col-4">
+                		<label for="supi">Supi</label>
+                	</div>
+                	<div class="col-8">
+                		<input class="form-control" id="supi" th:field="*{supi}">
+                	</div>
+            	</div>	
+            </div>
+            <div class="row  mb-2">
+                <div class="input-group">
+                	<div class="col-4">
+                		<label for="gpsi">Gpsi</label>
+                	</div>
+                	<div class="col-8 input-group">
+                		<input class="form-control" id="gpsi" th:field="*{gpsi}">
+                	</div>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="submit"  class="btn btn-primary">Create</button>
+      </div>
+      </form>
+      
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="addsMobile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Member Offer</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:aliceblue">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        You are contacting the user 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary"><a href="mobile" target="_blank" style="color:aliceblue">Send</a></button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+	

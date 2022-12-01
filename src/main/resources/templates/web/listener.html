@@ -1,0 +1,27 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/frontend :: head(~{ :: title})">
+	<title th:text="${maintitle}"></title>
+</head>
+<script>
+ $(document).ready(function(){
+	var urlEndpoint = 'http://localhost:8080/subscribe';
+	var eventSource = new EventSource(urlEndpoint);
+	eventSource.addEventListener("incomingRequest", function(event){
+		 //var incomingData = JSON.parse(event.data);
+		 console.log("Event:" + event.data)
+		 addBlock(event.data);
+	});
+})
+
+function addBlock(text){
+	const container = document.getElementById('listenercontainer');
+	container.insertAdjacentText('beforeend', text);
+	//var paragraf = document.createElement("p");
+	//paragraf.innerHTML = text;
+}
+</script>
+
+<div id="listenercontainer">
+      
+</div>
+</html>
